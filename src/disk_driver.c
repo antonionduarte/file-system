@@ -10,9 +10,8 @@
 #include "disk_driver.h"
 #endif
 
-
 static struct {
-	int dfd; // Only 1 disk at a time supported; if != -1, a disk is "open"
+	int dfd; // only 1 disk at a time supported; if != -1, a disk is "open"
 	unsigned int nblocks; // if != -1, number of blocks
 } theDisk = { -1, -1 };   // i.e., = 0xfffff...
 

@@ -11,7 +11,7 @@ unsigned char buf1[DISK_BLOCK_SIZE];
 
 int main() {
 	int ercode;
-	// Create a disk named disk0 w/ size 100 blocks
+	// create a disk named disk0 w/ size 100 blocks
 	ercode = disk_ops.open("disk0", 100); printf("open %d\n", ercode);
 
 	// get the disk status... it must return 100 
@@ -29,4 +29,4 @@ int main() {
 
 	// disco fechado, deve dar erro...
 	ercode = disk_ops.write(1, buf); printf("write %d\n", ercode);
-}
+} 
