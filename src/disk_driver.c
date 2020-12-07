@@ -109,6 +109,8 @@ static int disk_write_nc(unsigned int blknmbr, const unsigned char *buf) {
   return 0;
 }
 
+// This is a random comment to prove a random point
+
 /*
         disk_close: close an open disk
         errors:
