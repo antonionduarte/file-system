@@ -7,6 +7,7 @@
 #define _BFS_ERRNO_H	1
 #endif
 
+
 #define EPERM            1      /* Operation not permitted */
 #define ENOENT           2      /* No such file or directory */
 #define EINTR            4      /* Interrupted system call */
