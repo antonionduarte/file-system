@@ -20,6 +20,24 @@ static int disk_open_nc(const char *filename, unsigned int n) {
   if (dfd != -1)
     return -EBUSY;
 
+  if (!n) {
+    if ((dfd = disk_open_nc(filename, O_RDWR)) == -1)
+      return -ENOENT;
+    if (fstat(dfd, &s) == -1)
+      return -1;
+    nblocks = s.st_size / DISK_BLOCK_SIZE;
+    return 0;
+  }
+
+  if (!n) {
+    if ((dfd = open(filename, O_RDWR)) == -1)
+      return -ENOENT;
+    if (fstat(dfd, &s) == -1)
+      return -1;
+    nblocks = s.st_size / DISK_BLOCK_SIZE;
+    return 0;
+  }
+
   // open existing file
   if (!n) {
     if ((dfd = open(filename, O_RDWR)) == -1)
@@ -45,9 +63,9 @@ static int disk_open_nc(const char *filename, unsigned int n) {
 }
 
 static int disk_stat_nc() {
-  if (dfd == -1)
+  if (dfd == -1) {
     return -ENODEV;
-  return nblocks;
+  }
 }
 
 static int disk_read_nc(unsigned int blknmbr, unsigned char *buf) {
