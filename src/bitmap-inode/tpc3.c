@@ -30,8 +30,7 @@ int makeargv(char *s, char *argv[ARGVMAX + 1]) {
 
   int ntokens;
 
-  if (s == NULL || argv == NULL || ARGVMAX == 0)
-    return -1;
+  if (s == NULL || argv == NULL || ARGVMAX == 0) return -1;
 
   ntokens = 0;
   argv[ntokens] = strtok(s, " \t\n");
@@ -39,7 +38,7 @@ int makeargv(char *s, char *argv[ARGVMAX + 1]) {
     ntokens++;
     argv[ntokens] = strtok(NULL, " \t\n");
   }
-  argv[ntokens] = NULL; // it must terminate with NULL
+  argv[ntokens] = NULL;	 // it must terminate with NULL
   return ntokens;
 }
 
@@ -50,15 +49,13 @@ int bmap_allocate(int entry) {
 
   if (entry == -1) {
     // **TODO** use the appropriate function to get a free bytemap entry
-    if (ercode < 0)
-      return ercode;
+    if (ercode < 0) return ercode;
     entry = ercode;
   }
 
   // **TODO** use the appropriate function to allocate the entry
   // previously found
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   return entry;
 }
@@ -67,7 +64,7 @@ void run_A(char *args[]) {
   int ercode;
 
   ercode = bmap_allocate(atoi(args[1]));
-  if (ercode >= 0) { // ercode >= 0 is not an error, is the entry for the inode
+  if (ercode >= 0) {  // ercode >= 0 is not an error, is the entry for the inode
     // **TODO** use the appropriate function to allocate the inode
     printf("%s %s\t\tOK\n", args[0], args[1]);
   } else
@@ -87,9 +84,9 @@ void run_C(char *args[]) {
 void run_D(char *args[]) {
   int ercode;
 
-  ercode = // deallocate the entry (atoi(args[1]));
+  ercode =  // deallocate the entry (atoi(args[1]));
       if (ercode < 0) printf("%s %s\t\tERROR\n", args[0], args[1]);
-  else { // ercode >= 0 is not an error, is the entry for the inode
+  else {  // ercode >= 0 is not an error, is the entry for the inode
     // **TODO** use the appropriate function to deallocate the inode
     printf("%s %s\t\tOK\n", args[0], args[1]);
   }
@@ -99,8 +96,7 @@ void run_O(int argc, char *args[]) {
   int ercode;
   int nblocks = 0;
 
-  if (argc == 3)
-    nblocks = atoi(args[2]);
+  if (argc == 3) nblocks = atoi(args[2]);
   ercode = disk_ops.open(args[1], nblocks);
   if (ercode < 0) {
     if (argc == 3)
@@ -116,37 +112,36 @@ void run_O(int argc, char *args[]) {
 }
 
 void runcommand(int argc, char *args[]) {
-
   switch (args[0][0]) {
-  case 'A':
-    run_A(args);
-    break;
-  case 'B':
-    bytemap_print_table(max_bm_entries);
-    break;
-  case 'C':
-    run_C(args);
-    break;
-  case 'D':
-    run_D(args);
-    break;
-  case 'I':
-    inode_table_print(max_bm_entries);
-    break;
-  case 'O':
-    run_O(argc, args);
-    break;
-  case 'S':
-    printf("%s %s\n", args[0], args[1]);
-    max_bm_entries = atoi(args[1]);
-    break;
-  case 'T':
-    printf("%s %s\n", args[0], args[1]);
-    max_bm_entries = atoi(args[1]);
-    break;
-  default:
-    printf("WRONG SPEC FILE?\n");
-    break;
+    case 'A':
+      run_A(args);
+      break;
+    case 'B':
+      bytemap_print_table(max_bm_entries);
+      break;
+    case 'C':
+      run_C(args);
+      break;
+    case 'D':
+      run_D(args);
+      break;
+    case 'I':
+      inode_table_print(max_bm_entries);
+      break;
+    case 'O':
+      run_O(argc, args);
+      break;
+    case 'S':
+      printf("%s %s\n", args[0], args[1]);
+      max_bm_entries = atoi(args[1]);
+      break;
+    case 'T':
+      printf("%s %s\n", args[0], args[1]);
+      max_bm_entries = atoi(args[1]);
+      break;
+    default:
+      printf("WRONG SPEC FILE?\n");
+      break;
   }
 }
 
@@ -156,13 +151,11 @@ void interp() {
   int argc;
 
   while (fgets(line, LINESIZE, stdin) != NULL) {
-    if ((argc = makeargv(line, av)) > 0)
-      runcommand(argc, av);
+    if ((argc = makeargv(line, av)) > 0) runcommand(argc, av);
   }
 }
 
 int main(int argc, char *argv[]) {
-
   interp();
 
   return 0;

@@ -15,9 +15,9 @@ extern struct disk_operations disk_ops;
    and offset within that block. The inode block number starts at 0 */
 
 static void inode_abs2bo(unsigned int numinode, unsigned int *numblock,
-                         unsigned int *offset) {
-  *numblock =   // **TODO**
-      *offset = // **TODO**
+			 unsigned int *offset) {
+  *numblock =	 // **TODO**
+      *offset =	 // **TODO**
 }
 
 int inode_table_print(unsigned int ninodes) {
@@ -33,8 +33,7 @@ int inode_table_print(unsigned int ninodes) {
   for (int inoblk = 0; inoblk < ninodeblocks; inoblk++) {
     // Get a full inode block (REMEMBER there is an OFFSET!)
     // **TODO**
-    if (ercode < 0)
-      return ercode;
+    if (ercode < 0) return ercode;
 
     // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to
     // Mooshak
@@ -44,14 +43,13 @@ int inode_table_print(unsigned int ninodes) {
 
     while ((left) && (entry < INODES_PER_BLOCK)) {
       if ((entry + 1) % INODES_PER_BLOCK)
-        printf("%u ", in_b.ino[entry].isvalid);
+	printf("%u ", in_b.ino[entry].isvalid);
       else
-        printf("%u\n", in_b.ino[entry].isvalid);
+	printf("%u\n", in_b.ino[entry].isvalid);
       left--;
       entry++;
     }
-    if (entry % INODES_PER_BLOCK)
-      printf("\n"); // last NL for general case
+    if (entry % INODES_PER_BLOCK) printf("\n");	 // last NL for general case
   }
 
   return 0;
@@ -65,16 +63,14 @@ static int inode_allocate(unsigned int absinode) {
   inode_abs2bo(absinode, &block, &offset);
   // read inode block from disk
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   // in the block, change the target inode
   i_b.ino[offset].isvalid = 1;
 
   // write inode block to disk
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   return 0;
 }
@@ -87,19 +83,17 @@ static int inode_deallocate(unsigned int absinode) {
   inode_abs2bo(absinode, &block, &offset);
   // read inode block from disk
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   // in the block, clear ALL fields of the target inode
   // **TODO**
 
   // write inode block to disk
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   return 0;
 }
 
 struct inode_operations inode_ops = {.allocate = inode_allocate,
-                                     .deallocate = inode_deallocate};
+				     .deallocate = inode_deallocate};

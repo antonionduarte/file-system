@@ -7,10 +7,10 @@
 #endif
 
 /* Global variables */
-unsigned int max_bm_entries = -1; // stores the number of entries for the
-                                  // current test session (commands T and S)
-                                  // if this was a filesystem, it would be
-                                  // stored in the superblock
+unsigned int max_bm_entries = -1;  // stores the number of entries for the
+				   // current test session (commands T and S)
+				   // if this was a filesystem, it would be
+				   // stored in the superblock
 
 /* Helper functions */
 
@@ -21,8 +21,7 @@ int bytemap_print_table(unsigned int max_entries) {
 
   // read in the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to Mooshak
   printf("Printing the bytemap ----------\n");
@@ -35,8 +34,7 @@ int bytemap_print_table(unsigned int max_entries) {
     left--;
     entry++;
   }
-  if (entry % 16)
-    printf("\n"); // last NL for general case
+  if (entry % 16) printf("\n");	 // last NL for general case
 
   return 0;
 }
@@ -47,13 +45,11 @@ static int bytemap_allocate(unsigned int entry) {
   int ercode;
   unsigned char bmap[DISK_BLOCK_SIZE];
 
-  if (**TODO * * >= max_bm_entries)
-    return -EFBIG;
+  if (**TODO * * >= max_bm_entries) return -EFBIG;
 
   // read in the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   if (**TODO **)
     return -EBUSY;
@@ -62,8 +58,7 @@ static int bytemap_allocate(unsigned int entry) {
 
   // update (i.e., write) the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   return 0;
 }
@@ -72,13 +67,11 @@ static int bytemap_deallocate(unsigned int entry) {
   int ercode;
   unsigned char bmap[DISK_BLOCK_SIZE];
 
-  if (**TODO * * >= max_bm_entries)
-    return -EFBIG;
+  if (**TODO * * >= max_bm_entries) return -EFBIG;
 
   // read in the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   if (**TODO **)
     return -EINVAL;
@@ -87,8 +80,7 @@ static int bytemap_deallocate(unsigned int entry) {
 
   // update (i.e., write) the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   return entry;
 }
@@ -101,18 +93,16 @@ static int bytemap_getfree() {
 
   // read in the bytemap
   // **TODO**
-  if (ercode < 0)
-    return ercode;
+  if (ercode < 0) return ercode;
 
   // Scan the bytemap, look for the first free entry
   // **TODO**
 
-  if (found)
-    return j;
+  if (found) return j;
 
   return -ENOSPC;
 }
 
 struct bytemap_operations bmap_ops = {.allocate = bytemap_allocate,
-                                      .deallocate = bytemap_deallocate,
-                                      .getfree = bytemap_getfree};
+				      .deallocate = bytemap_deallocate,
+				      .getfree = bytemap_getfree};

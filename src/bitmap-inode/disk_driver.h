@@ -9,16 +9,16 @@
 /*
 Synopsis:	open(char *filename, unsigned int n)
 Description:	If the file (“disk”) named <filename> does not exist, it
-                will be created with a length of n > 0 blocks (where a block
-                is of size DISK_BLOCK_SIZE bytes); if <filename> does exist,
-                then if n is zero the disk will be “just opened”. However,
-                if n > 0, the disk will be recreated with the new size.
-                When blocks are written as a result of the open(), they are
-                zeroed.
+		will be created with a length of n > 0 blocks (where a block
+		is of size DISK_BLOCK_SIZE bytes); if <filename> does exist,
+		then if n is zero the disk will be “just opened”. However,
+		if n > 0, the disk will be recreated with the new size.
+		When blocks are written as a result of the open(), they are
+		zeroed.
 Errors:
 -EBUSY		A disk is already open
 -ENOENT		A open with n == 0 was specified, but the file named <filename>
-                does not exist
+		does not exist
 -1		an unforeseen error has occurred
 
 

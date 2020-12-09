@@ -5,8 +5,7 @@
 extern struct disk_operations disk_ops;
 #endif
 
-#define BYTEMAP_OFFSET		0  // Disk block where the bytemap starts
-
+#define BYTEMAP_OFFSET 0  // Disk block where the bytemap starts
 
 /* operations on inode structures
 
@@ -44,7 +43,6 @@ extern struct disk_operations disk_ops;
 */
 
 int bytemap_print_table(unsigned int max_entries);
-
 
 struct bytemap_operations {
   int (*allocate)(unsigned int entry);
