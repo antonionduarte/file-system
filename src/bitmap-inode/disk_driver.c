@@ -66,6 +66,7 @@ static int disk_stat_nc() {
   if (dfd == -1) {
     return -ENODEV;
   }
+  return nblocks;
 }
 
 static int disk_read_nc(unsigned int blknmbr, unsigned char *buf) {
