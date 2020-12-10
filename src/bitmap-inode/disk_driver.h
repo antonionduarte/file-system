@@ -1,13 +1,13 @@
 #define DISK_DRIVER_H
 
-#define DISK_BLOCK_SIZE 512
+#define DISK_BLOCK_SIZE		512
 
 #ifndef _TPC3_ERRNO_H
 #include "tpc3_errno.h"
 #endif
 
 /*
-Synopsis:	open(char *filename, unsigned int n)
+Synopsis:	open(char *filename, unsigned int n) 
 Description:	If the file (“disk”) named <filename> does not exist, it
 		will be created with a length of n > 0 blocks (where a block
 		is of size DISK_BLOCK_SIZE bytes); if <filename> does exist,
@@ -22,7 +22,7 @@ Errors:
 -1		an unforeseen error has occurred
 
 
-Synopsis:	stat()
+Synopsis:	stat() 
 Description:	reports the size (in blocks) of an opened disk.
 Errors:
 -ENODEV		There is no open(ed) disk
@@ -43,7 +43,7 @@ Errors:
 -ENOSPC		A request was made to read a block that does not exist
 -1		an unforeseen error has occurred
 
-Synopsis:	close()
+Synopsis:	close() 
 Description:	closes an opened disk.
 Errors:
 -ENODEV		There is no open(ed) disk
@@ -58,3 +58,4 @@ struct disk_operations {
   int (*write)(unsigned int blknmbr, const unsigned char *buf);
   int (*close)();
 };
+

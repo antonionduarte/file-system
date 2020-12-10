@@ -20,7 +20,7 @@ int bytemap_print_table(unsigned int max_entries) {
   int left = max_entries, entry = 0;
 
   // read in the bytemap
-  // **TODO**
+	ercode = disk_ops.read(BYTEMAP_OFFSET, bmap);
   if (ercode < 0) return ercode;
 
   // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to Mooshak
@@ -45,20 +45,20 @@ static int bytemap_allocate(unsigned int entry) {
   int ercode;
   unsigned char bmap[DISK_BLOCK_SIZE];
 
-  if (**TODO * * >= max_bm_entries) return -EFBIG;
+  if (entry >= max_bm_entries) return -EFBIG;
 
   // read in the bytemap
-  // **TODO**
-  if (ercode < 0) return ercode;
+	ercode = disk_ops.read(BYTEMAP_OFFSET, bmap);
+	if (ercode < 0) return ercode;
 
-  if (**TODO **)
+  if (bmap[entry] == 1) // bytemap entry already allocated
     return -EBUSY;
   else
     bmap[entry] = 1;
 
   // update (i.e., write) the bytemap
-  // **TODO**
-  if (ercode < 0) return ercode;
+  disk_ops.write(BYTEMAP_OFFSET, bmap);
+	if (ercode < 0) return ercode;
 
   return 0;
 }
@@ -67,38 +67,41 @@ static int bytemap_deallocate(unsigned int entry) {
   int ercode;
   unsigned char bmap[DISK_BLOCK_SIZE];
 
-  if (**TODO * * >= max_bm_entries) return -EFBIG;
+  if (entry >= max_bm_entries) return -EFBIG;
 
   // read in the bytemap
-  // **TODO**
-  if (ercode < 0) return ercode;
+  ercode = disk_ops.read(BYTEMAP_OFFSET, bmap);
+	if (ercode < 0) return ercode;
 
-  if (**TODO **)
+  if (bmap[entry] == 0)
     return -EINVAL;
   else
     bmap[entry] = 0;
 
   // update (i.e., write) the bytemap
-  // **TODO**
-  if (ercode < 0) return ercode;
-
+	disk_ops.write(BYTEMAP_OFFSET, bmap);
+	if (ercode < 0) return ercode;
+	
   return entry;
 }
 
 static int bytemap_getfree() {
   int ercode;
   int entriesLeft = max_bm_entries;
-  int found = 0;
   unsigned char bmap[DISK_BLOCK_SIZE];
 
   // read in the bytemap
-  // **TODO**
-  if (ercode < 0) return ercode;
+  ercode = disk_ops.read(BYTEMAP_OFFSET, bmap);
+	if (ercode < 0) return ercode;
 
   // Scan the bytemap, look for the first free entry
-  // **TODO**
-
-  if (found) return j;
+  // TODO: if there's an error check here
+	int j = 0;
+	while (entriesLeft != 0) {
+		if (bmap[j] == 0) return j;
+		j++;
+		entriesLeft--;
+	}
 
   return -ENOSPC;
 }

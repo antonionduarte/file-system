@@ -16,8 +16,8 @@ extern struct disk_operations disk_ops;
 
 static void inode_abs2bo(unsigned int numinode, unsigned int *numblock,
 			 unsigned int *offset) {
-  *numblock =	 // **TODO**
-      *offset =	 // **TODO**
+  *numblock = numinode / INODES_PER_BLOCK;
+  *offset = numinode % INODES_PER_BLOCK;
 }
 
 int inode_table_print(unsigned int ninodes) {
@@ -32,7 +32,7 @@ int inode_table_print(unsigned int ninodes) {
 
   for (int inoblk = 0; inoblk < ninodeblocks; inoblk++) {
     // Get a full inode block (REMEMBER there is an OFFSET!)
-    // **TODO**
+    ercode = disk_ops.read(INODE_OFFSET + inoblk, in_b.data);
     if (ercode < 0) return ercode;
 
     // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to
@@ -62,14 +62,14 @@ static int inode_allocate(unsigned int absinode) {
 
   inode_abs2bo(absinode, &block, &offset);
   // read inode block from disk
-  // **TODO**
-  if (ercode < 0) return ercode;
+  ercode = disk_ops.read(INODE_OFFSET + block, i_b.data);
+	if (ercode < 0) return ercode;
 
   // in the block, change the target inode
   i_b.ino[offset].isvalid = 1;
 
   // write inode block to disk
-  // **TODO**
+	disk_ops.write(INODE_OFFSET + block, i_b.data);
   if (ercode < 0) return ercode;
 
   return 0;
@@ -82,15 +82,21 @@ static int inode_deallocate(unsigned int absinode) {
 
   inode_abs2bo(absinode, &block, &offset);
   // read inode block from disk
-  // **TODO**
-  if (ercode < 0) return ercode;
+ 	ercode = disk_ops.read(INODE_OFFSET + block, i_b.data);
+	if (ercode < 0) return ercode;
 
   // in the block, clear ALL fields of the target inode
-  // **TODO**
+	// clear the direct field
+	for (int i = 0; i <= i_b.ino[offset].size ; i++) {
+		i_b.ino[offset].direct[i] = 0;
+	}
+
+	i_b.ino[offset].isvalid = 0;
+	i_b.ino[offset].size = 0;
 
   // write inode block to disk
-  // **TODO**
-  if (ercode < 0) return ercode;
+  disk_ops.write(INODE_OFFSET + block, i_b.data);
+	if (ercode < 0) return ercode;
 
   return 0;
 }

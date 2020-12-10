@@ -48,12 +48,12 @@ int bmap_allocate(int entry) {
   int ercode;
 
   if (entry == -1) {
-    // **TODO** use the appropriate function to get a free bytemap entry
+    ercode = bmap_ops.getfree();
     if (ercode < 0) return ercode;
     entry = ercode;
   }
 
-  // **TODO** use the appropriate function to allocate the entry
+  bmap_ops.allocate(entry);
   // previously found
   if (ercode < 0) return ercode;
 
@@ -65,7 +65,7 @@ void run_A(char *args[]) {
 
   ercode = bmap_allocate(atoi(args[1]));
   if (ercode >= 0) {  // ercode >= 0 is not an error, is the entry for the inode
-    // **TODO** use the appropriate function to allocate the inode
+    inode_ops.allocate(ercode);
     printf("%s %s\t\tOK\n", args[0], args[1]);
   } else
     printf("%s %s\t\tERROR\n", args[0], args[1]);
@@ -84,10 +84,11 @@ void run_C(char *args[]) {
 void run_D(char *args[]) {
   int ercode;
 
-  ercode =  // deallocate the entry (atoi(args[1]));
-      if (ercode < 0) printf("%s %s\t\tERROR\n", args[0], args[1]);
+	ercode = bmap_ops.deallocate(atoi(args[1]));
+  if (ercode < 0)
+    printf("%s %s\t\tERROR\n", args[0], args[1]);
   else {  // ercode >= 0 is not an error, is the entry for the inode
-    // **TODO** use the appropriate function to deallocate the inode
+    inode_ops.deallocate(ercode);
     printf("%s %s\t\tOK\n", args[0], args[1]);
   }
 }
