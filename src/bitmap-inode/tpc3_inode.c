@@ -28,7 +28,7 @@ int inode_table_print(unsigned int ninodes) {
   int entry;
 
   // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to Mooshak
-  printf("Printing the inodes -----------\n");
+  // printf("Printing the inodes -----------\n");
 
   for (int inoblk = 0; inoblk < ninodeblocks; inoblk++) {
     // Get a full inode block (REMEMBER there is an OFFSET!)
@@ -37,7 +37,7 @@ int inode_table_print(unsigned int ninodes) {
 
     // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to
     // Mooshak
-    printf("Inode Block: %d\n", inoblk);
+    // printf("Inode Block: %d\n", inoblk);
     // Print each inode in block
     entry = 0;
 
@@ -69,7 +69,7 @@ static int inode_allocate(unsigned int absinode) {
   i_b.ino[offset].isvalid = 1;
 
   // write inode block to disk
-	disk_ops.write(INODE_OFFSET + block, i_b.data);
+	ercode = disk_ops.write(INODE_OFFSET + block, i_b.data);
   if (ercode < 0) return ercode;
 
   return 0;
@@ -95,7 +95,7 @@ static int inode_deallocate(unsigned int absinode) {
 	i_b.ino[offset].size = 0;
 
   // write inode block to disk
-  disk_ops.write(INODE_OFFSET + block, i_b.data);
+  ercode = disk_ops.write(INODE_OFFSET + block, i_b.data);
 	if (ercode < 0) return ercode;
 
   return 0;

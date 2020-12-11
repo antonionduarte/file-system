@@ -24,7 +24,7 @@ int bytemap_print_table(unsigned int max_entries) {
   if (ercode < 0) return ercode;
 
   // **TODO** DO NOT FORGET TO COMMENT THE NEXT LINE when submitting to Mooshak
-  printf("Printing the bytemap ----------\n");
+  // printf("Printing the bytemap ----------\n");
   // prints 16 entries per line
   while (left) {
     if ((entry + 1) % 16)
@@ -57,10 +57,10 @@ static int bytemap_allocate(unsigned int entry) {
     bmap[entry] = 1;
 
   // update (i.e., write) the bytemap
-  disk_ops.write(BYTEMAP_OFFSET, bmap);
+  ercode = disk_ops.write(BYTEMAP_OFFSET, bmap);
 	if (ercode < 0) return ercode;
 
-  return 0;
+  return entry;
 }
 
 static int bytemap_deallocate(unsigned int entry) {
@@ -79,7 +79,7 @@ static int bytemap_deallocate(unsigned int entry) {
     bmap[entry] = 0;
 
   // update (i.e., write) the bytemap
-	disk_ops.write(BYTEMAP_OFFSET, bmap);
+	ercode = disk_ops.write(BYTEMAP_OFFSET, bmap);
 	if (ercode < 0) return ercode;
 	
   return entry;

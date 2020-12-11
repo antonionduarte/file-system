@@ -53,11 +53,11 @@ int bmap_allocate(int entry) {
     entry = ercode;
   }
 
-  bmap_ops.allocate(entry);
+  ercode = bmap_ops.allocate(entry);
   // previously found
   if (ercode < 0) return ercode;
 
-  return entry;
+  return ercode;
 }
 
 void run_A(char *args[]) {
