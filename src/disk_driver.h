@@ -2,8 +2,8 @@
 
 #define DISK_BLOCK_SIZE		512
 
-#ifndef _TPC3_ERRNO_H
-#include "tpc3_errno.h"
+#ifndef _BFS_ERRNO_H
+#include "ffs_errno.h"
 #endif
 
 /*

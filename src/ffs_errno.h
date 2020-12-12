@@ -1,5 +1,5 @@
 /*
- *	     ADAPTED by Paulo Lopes from
+ *	     ADAPTED by the instructors from
  *      ISO C99 Standard: 7.5 Errors	<errno.h>
  */
 
