@@ -22,6 +22,7 @@ static int super_read(struct super *sb) {
 
   // read the disk block that contains the superblock
   // ....
+	disk_ops.read(SB_OFFSET, sb_u.data);
   if (ercode < 0) return ercode; // an advice: always test the return codes...
 
   // copy the contents (without the extra garbage :-) to sb

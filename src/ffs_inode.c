@@ -1,25 +1,24 @@
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
 
 #ifndef FFS_INODE_H
 #include "ffs_inode.h"
 #endif
 
-
 static void inode_print(unsigned int number, struct inode *in) {
-
   printf("%d:\n", number);
-  printf("	%s\n", (in->isvalid)?"valid":"invalid");
+  printf("	%s\n", (in->isvalid) ? "valid" : "invalid");
   if (in->isvalid) {
-
     // print the i-node information for one i-node
+  	printf("\t\t%d", in->size);
 
-  }
+		for (int i = 0; i < )
+	}
 }
 
-static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,\
-			unsigned int inodesStartBlock) {
+static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,
+			    unsigned int inodesStartBlock) {
   int ercode;
   union in_block in_b;
   // more variables...
@@ -27,7 +26,7 @@ static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,\
   printf("i-nodes:\n");
 
   for ( // ninodeblocks is the number of blocks of the inode table) {
-	// the table starts at inodesStartBlock
+	// the table starts at inodesStartBlock:
     // Get a full inode block; 
     ...
     if (ercode < 0) return ercode;
@@ -35,24 +34,24 @@ static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,\
     // Print each inode in block
     for or while....
       inode_print( number of the inode, inode to print);
-    }
-  }
-  
-  return 0;
+}
 }
 
+return 0;
+}
 
 /* inode (global) number is decomposed into inode block number
    and offset within that block. The inode block number starts at 0 */
 
-static void inode_location(unsigned int numinode,\
-		 unsigned int *numblock, unsigned int *offset) {
-  *numblock= numinode / INODES_PER_BLOCK;
-  *offset= numinode % INODES_PER_BLOCK;
+static void inode_location(unsigned int numinode, unsigned int *numblock,
+			   unsigned int *offset) {
+  *numblock = numinode / INODES_PER_BLOCK;
+  *offset = numinode % INODES_PER_BLOCK;
 }
 
 // read an i-node from disk
-static int inode_read(unsigned int startInArea, unsigned int absinode, struct inode *in) {
+static int inode_read(unsigned int startInArea, unsigned int absinode,
+		      struct inode *in) {
   int ercode;
   unsigned int block, offset;
   union in_block in_b;
@@ -60,9 +59,9 @@ static int inode_read(unsigned int startInArea, unsigned int absinode, struct in
   inode_location(absinode, &block, &offset);
   // read the inode block
   if (ercode < 0) return ercode;
-  
+
   // extract the inode information from the block into inode *in
-  
+
   return 0;
 }
 
@@ -92,7 +91,7 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,\
   // read the data block containing the inode number absinode
   if (ercode < 0) return ercode;
 
-  if ( the inode referenced at offset is not a valid one) return 0;  
+  if ( the inode referenced at offset is not a valid one) return 0;
 
   printf("\nPrinting contents of file(inode) %d\n", absinode);
 
@@ -100,13 +99,11 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,\
   if (!size) {printf("** NO DATA **\n"); return 0;}
 
   // print the contents of the data blocks
-  
+
   return 0;
 }
  ** end of Option A code */
 
-struct inode_operations inode_ops= {
-	.read= inode_read,
-	.printFileData= inode_printFileData,
-	.printTable= inode_printTable
-};
+struct inode_operations inode_ops = {.read = inode_read,
+				     .printFileData = inode_printFileData,
+				     .printTable = inode_printTable};
