@@ -19,11 +19,13 @@ static void inode_print(unsigned int number, struct inode *in) {
 	(size % DISK_BLOCK_SIZE == 0) ? block_count : block_count + 1;
 
     for (int i = 0; i < POINTERS_PER_INODE; i++) {
-    	int j = 0;
-			if (j < occupied_pointers) printf("\t\t\t%d", in->direct[i]);
-			else printf("\t\t\t%s", "NULL");
-			j++;
-		}
+      int j = 0;
+      if (j < occupied_pointers)
+	printf("\t\t\t%d", in->direct[i]);
+      else
+	printf("\t\t\t%s", "NULL");
+      j++;
+    }
   }
 }
 
@@ -31,23 +33,25 @@ static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,
 			    unsigned int inodesStartBlock) {
   int ercode;
   union in_block in_b;
+  int left = ninodes;
   // more variables...
 
   printf("i-nodes:\n");
 
-  for ( // ninodeblocks is the number of blocks of the inode table) {
-	// the table starts at inodesStartBlock:
-    // Get a full inode block; 
-    ...
+  for (int inoblk = 0; inoblk < ninodeblocks; inoblk++) {
+    // the table starts at inodesStartBlock:
+    // Get a full inode block;
+    ercode = disk_ops.read(inodesStartBlock + inoblk, in_b.data);
     if (ercode < 0) return ercode;
 
     // Print each inode in block
-    for or while....
-      inode_print( number of the inode, inode to print);
-}
-}
+    for (int i = 0; (i < INODES_PER_BLOCK) && (left); i++) {
+      inode_print(i, &in_b.ino[i % INODES_PER_BLOCK]); 
+			left--;
+    }
+  }
 
-return 0;
+  return 0;
 }
 
 /* inode (global) number is decomposed into inode block number
@@ -68,9 +72,18 @@ static int inode_read(unsigned int startInArea, unsigned int absinode,
 
   inode_location(absinode, &block, &offset);
   // read the inode block
+	
+	ercode = disk_ops.read(startInArea + block, in_b.data);
   if (ercode < 0) return ercode;
 
   // extract the inode information from the block into inode *in
+	in->isvalid = in_b.ino[offset].isvalid;
+
+	for (int i = 0; i < POINTERS_PER_INODE; i++) {
+		in->direct[i] = in_b.ino[offset].direct[i];
+	}
+
+	in->size = in_b.ino[offset].size;
 
   return 0;
 }

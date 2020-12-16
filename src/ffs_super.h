@@ -8,7 +8,7 @@
 
 #define SB_OFFSET	0
 #define BMi_OFFSET	1
-
+#define DISK_BLOCK_SIZE 512
 #define FS_MAGIC	0xf0f03410
 
 struct super {
