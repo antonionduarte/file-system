@@ -11,10 +11,20 @@ static void inode_print(unsigned int number, struct inode *in) {
   printf("	%s\n", (in->isvalid) ? "valid" : "invalid");
   if (in->isvalid) {
     // print the i-node information for one i-node
-  	printf("\t\t%d", in->size);
+    printf("\t\t%d", in->size);
 
-		for (int i = 0; i < )
-	}
+    int size = in->size;
+    int block_count = in->size / DISK_BLOCK_SIZE;
+    int occupied_pointers =
+	(size % DISK_BLOCK_SIZE == 0) ? block_count : block_count + 1;
+
+    for (int i = 0; i < POINTERS_PER_INODE; i++) {
+    	int j = 0;
+			if (j < occupied_pointers) printf("\t\t\t%d", in->direct[i]);
+			else printf("\t\t\t%s", "NULL");
+			j++;
+		}
+  }
 }
 
 static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,

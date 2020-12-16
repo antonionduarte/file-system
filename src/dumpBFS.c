@@ -23,8 +23,6 @@ extern struct bytemap_operations bmap_ops;
 extern struct inode_operations inode_ops;
 #endif
 
-
-
 int main( int argc, char *argv[]) {
 
   int ercode;
