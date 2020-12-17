@@ -128,5 +128,5 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,\
  ** end of Option A code */
 
 struct inode_operations inode_ops = {.read = inode_read,
-				     .printFileData = inode_printFileData,
+				     //.printFileData = inode_printFileData,
 				     .printTable = inode_printTable};
