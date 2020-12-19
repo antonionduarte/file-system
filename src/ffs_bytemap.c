@@ -24,7 +24,7 @@ static int bytemap_read(struct bytemap *bmap, unsigned int max_entries, unsigned
   int ercode;
 
   // using the absolute disk block value, read the bytemap block
-  disk_ops.read(absDskBlk, bmap->bmap);
+	ercode = disk_ops.read(absDskBlk, bmap->bmap);
 	if (ercode < 0) return ercode;
 
   // use max_entries to set the bytemap size;  set index to 0
