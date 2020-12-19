@@ -126,7 +126,7 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
     return 0;
   }
 
-  // print the contents of the data blocks
+  // TODO: print the contents of the data blocks
 
   return 0;
 }
