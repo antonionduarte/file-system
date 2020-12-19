@@ -11,7 +11,7 @@ static void inode_print(unsigned int number, struct inode *in) {
   printf("	%s\n", (in->isvalid) ? "valid" : "invalid");
   if (in->isvalid) {
     // print the i-node information for one i-node
-    printf("\t\t%d", in->size);
+    printf("\t\t%d\n", in->size);
 
     int size = in->size;
     int block_count = in->size / DISK_BLOCK_SIZE;
@@ -21,9 +21,9 @@ static void inode_print(unsigned int number, struct inode *in) {
     for (int i = 0; i < POINTERS_PER_INODE; i++) {
       int j = 0;
       if (j < occupied_pointers)
-	printf("\t\t\t%d", in->direct[i]);
+	printf("\t\t\t%d\n", in->direct[i]);
       else
-	printf("\t\t\t%s", "NULL");
+	printf("\t\t\t%s\n", "NULL");
       j++;
     }
   }
@@ -38,6 +38,8 @@ static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,
 
   printf("i-nodes:\n");
 
+	int j = 0;
+
   for (int inoblk = 0; inoblk < ninodeblocks; inoblk++) {
     // the table starts at inodesStartBlock:
     // Get a full inode block;
@@ -46,7 +48,8 @@ static int inode_printTable(unsigned int ninodeblocks, unsigned int ninodes,
 
     // Print each inode in block
     for (int i = 0; (i < INODES_PER_BLOCK) && (left); i++) {
-      inode_print(i, &in_b.ino[i % INODES_PER_BLOCK]);
+      inode_print(j, &in_b.ino[i % INODES_PER_BLOCK]);
+			j++;
       left--;
     }
   }

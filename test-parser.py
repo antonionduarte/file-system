@@ -25,6 +25,7 @@ for i in range(0, NUMBER_OF_TESTS):
         print("------------------------")
         print("       FAILED %.2s        " % str(i+1))
         print("------------------------")
+        exit(0)
     else:
         print("------------------------")
         print("       PASSED %.2s        " % str(i+1))

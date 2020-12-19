@@ -24,7 +24,8 @@ static int super_read(struct super *sb) {
   if (ercode < 0) return ercode;  // an advice: always test the return codes...
 
   // copy the contents (without the extra garbage :-) to sb
-  memcpy(sb_u.data, sb, sizeof(sb_u.sb));
+  // memcpy(sb_u.data, sb, sizeof(sb_u.sb));
+	*sb = sb_u.sb;
 
   return 0;
 }
@@ -33,17 +34,17 @@ static int super_read(struct super *sb) {
 
 void super_print(const struct super *sb) {
   printf("Superblock:\n");
-  printf("fsmagic\t0x%08x", sb->fsmagic);
-  printf("nblocks:\t%u", sb->nblocks);
-  printf("nbmapblocksinodes:\t%u", sb->nbmapblocksinodes);
-  printf("ninodeblocks:\t%u", sb->ninodeblocks);
-  printf("ninodes:\t%u", sb->ninodes);
-  printf("nbmapblocksdata:\t%u", sb->nbmapblocksdata);
-  printf("ndatablocks:\t%u", sb->ndatablocks);
-  printf("startInArea:\t%u", sb->startInArea);
-  printf("startDtBmap:\t%u", sb->startDtBmap);
-  printf("startDtArea:\t%u", sb->startDtArea);
-  printf("mounted:\t%u", sb->mounted);
+  printf("%s\n", (sb->fsmagic == FS_MAGIC) ? "valid" : "invalid");
+  printf("%u\n", sb->nblocks);
+  printf("%u\n", sb->nbmapblocksinodes);
+  printf("%u\n", sb->ninodeblocks);
+  printf("%u\n", sb->ninodes);
+  printf("%u\n", sb->nbmapblocksdata);
+  printf("%u\n", sb->ndatablocks);
+  printf("%u\n", sb->startInArea);
+  printf("%u\n", sb->startDtBmap);
+  printf("%u\n", sb->startDtArea);
+  printf("%s\n", (sb->mounted == 0) ? "no" : "yes");
 }
 
 void super_debug(const struct super *sb) {

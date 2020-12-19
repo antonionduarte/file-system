@@ -40,13 +40,13 @@ int main(int argc, char *argv[]) {
   super_ops.print(&sb);
 
   // read the block of the inode bytemap
-  ercode = disk_ops.read(sb.startInArea - 1, bmapINODES.bmap);
+	ercode = bmap_ops.read(&bmapINODES, sb.ninodes, BMi_OFFSET); 
 	if (ercode < 0) return ercode;
   printf("Bmap for i-nodes:\n");
   bmap_ops.printTable(&bmapINODES);
 
   // read the block of the data bytemap
-	ercode = disk_ops.read(sb.startDtArea - 1, bmapDATA.bmap);
+	ercode = bmap_ops.read(&bmapDATA, sb.ndatablocks, sb.startDtBmap);
 	if (ercode < 0) return ercode;
   printf("Bmap for data blocks:\n");
   bmap_ops.printTable(&bmapDATA);
