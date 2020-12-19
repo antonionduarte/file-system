@@ -23,13 +23,13 @@ Bmap for data blocks:
 i-nodes:
 0:
 	valid
-		1497
-			0
-			1
-			2
-			0
-			0
-			0
+	1497
+		0
+		1
+		2
+		NULL
+		NULL
+		NULL
 1:
 	invalid
 2:
