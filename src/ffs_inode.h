@@ -6,15 +6,14 @@ extern struct disk_operations disk_ops;
 #endif
 
 // need struct super
-#ifndef FFS_SUPER_H 
+#ifndef FFS_SUPER_H
 #include "ffs_super.h"
 #endif
 
-
 // Note that inodes currently fit exactly in one block
-#define INODES_PER_BLOCK	(DISK_BLOCK_SIZE / sizeof(struct inode))
+#define INODES_PER_BLOCK (DISK_BLOCK_SIZE / sizeof(struct inode))
 
-#define POINTERS_PER_INODE	6
+#define POINTERS_PER_INODE 6
 
 struct inode {
   unsigned int isvalid;
@@ -26,8 +25,6 @@ union in_block {
   struct inode ino[INODES_PER_BLOCK];
   unsigned char data[DISK_BLOCK_SIZE];
 };
-
-
 
 /* operations on inode structures
 
@@ -42,15 +39,12 @@ union in_block {
 
 /* Helper function prototypes */
 
-
 struct inode_operations {
   void (*clear)(struct inode *in);
   int (*read)(unsigned int absDskBlk, unsigned int absinode, struct inode *in);
-  int (*printTable)(unsigned int ninodeblocks, unsigned int ninodes,\
-                        unsigned int absDskBlk);
-/* Optin A:
-  int (*printFileData)(unsigned int startInArea, unsigned int absinode,\
-                           unsigned int startDtArea);
-*/
+  int (*printTable)(unsigned int ninodeblocks, unsigned int ninodes,
+		    unsigned int absDskBlk);
+  int (*printFileData)(unsigned int startInArea, unsigned int absinode,
+		       unsigned int startDtArea);
 };
 
