@@ -15,14 +15,14 @@ static void inode_print(unsigned int number, struct inode *in) {
 
     int size = in->size;
     int block_count = in->size / DISK_BLOCK_SIZE;
-    int occupied_pointers =
-	((size % DISK_BLOCK_SIZE) == 0) ? block_count : block_count + 1;
+    int occupied_pointers = size % DISK_BLOCK_SIZE ? block_count + 1 : block_count;
 
     for (int i = 0; i < POINTERS_PER_INODE; i++) {
       if (i < occupied_pointers) {
-				printf("\t\t%d\n", in->direct[i]);
-      } else {
-				printf("\t\t%s\n", "NULL");
+		printf("\t\t%d\n", in->direct[i]);
+      } 
+	  else {
+		printf("\t\t%s\n", "NULL");
       }
     }
   }
