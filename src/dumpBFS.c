@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
   ercode = inode_ops.printTable(sb.ninodeblocks, sb.ninodes, sb.startInArea);
   if (ercode < 0) return ercode;
 
-  /* for (int i = 0; i < sb.ninodes; i++) { */
-  /*   ercode = inode_ops.printFileData(sb.startInArea, i, sb.startDtArea); */
-  /*   if (ercode < 0) return ercode; */
-  /* } */
+  for (int i = 0; i < sb.ninodes; i++) { 
+    ercode = inode_ops.printFileData(sb.startInArea, i, sb.startDtArea); 
+    if (ercode < 0) return ercode; 
+  } 
 
   return 0;
 }
