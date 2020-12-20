@@ -129,20 +129,22 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
   }
 
 	int i = 0;
-	while (size >= DISK_BLOCK_SIZE) {
+	while (size) {
 		ercode = disk_ops.read(startDtArea + in_b.ino->direct[i++], buf);
 
 		if (ercode < 0) {
 			return ercode;
 		}
 
-		f_data_print(buf, DISK_BLOCK_SIZE);
+		if (size >= DISK_BLOCK_SIZE) {
+			f_data_print(buf, DISK_BLOCK_SIZE);
+		}
+		else {
+			f_data_print(buf, size);
+		}
 		
 		size -= DISK_BLOCK_SIZE;
 	}
-
-	ercode = disk_ops.read(startDtArea + in_b.ino->direct[i], buf);
-	f_data_print(buf, size);
 
 	return ercode;
 }
