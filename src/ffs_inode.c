@@ -128,19 +128,23 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
     return 0;
   }
 
-	for (int i = 0; (i < POINTERS_PER_INODE) && (size > 512); i++) {
-		ercode = disk_ops.read(startDtArea + in_b.ino->direct[i], buf);
+	int i = 0;
+	while (size >= DISK_BLOCK_SIZE) {
+		ercode = disk_ops.read(startDtArea + in_b.ino->direct[i++], buf);
 
-		if (ercode < 0) return ercode;
+		if (ercode < 0) {
+			return ercode;
+		}
 
-		if (size >= DISK_BLOCK_SIZE) f_data_print(buf, DISK_BLOCK_SIZE);
-		else f_data_print(buf, size);
+		f_data_print(buf, DISK_BLOCK_SIZE);
 		
 		size -= DISK_BLOCK_SIZE;
 	}
 
+	ercode = disk_ops.read(startDtArea + in_b.ino->direct[i], buf);
+	f_data_print(buf, size);
 
-  return 0;
+	return ercode;
 }
 
 struct inode_operations inode_ops = {.read = inode_read,
