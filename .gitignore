@@ -9,6 +9,7 @@
 
 # VSCode
 .vscode
+.DS_Store
 
 # Linker output
 *.ilk

@@ -107,7 +107,7 @@ void f_data_print(unsigned char *buf, int toPrint) {
 
 static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
 			       unsigned int startDtArea) {
-  int ercode, size, toPrint;
+  int ercode, size;
   unsigned int block, offset;
   union in_block in_b;
   unsigned char buf[DISK_BLOCK_SIZE];
