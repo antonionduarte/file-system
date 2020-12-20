@@ -129,7 +129,7 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
   }
 
 	int i = 0;
-	while (size) {
+	while (size > 0) {
 		ercode = disk_ops.read(startDtArea + in_b.ino->direct[i++], buf);
 
 		if (ercode < 0) {
