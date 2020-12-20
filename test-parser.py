@@ -6,7 +6,7 @@ TEST_LIST = [
     "disk0.1F.512B",
     "disk0.1F.512B.A+B",
     "disk0.2F.0B",
-    "disk0.2F.1497B+64B",
+    "disk0.2F.1497B+64",
     "disk0.4entries.empty",
     "disk0.unformatted"
 ]

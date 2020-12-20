@@ -117,11 +117,11 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
   ercode = disk_ops.read(startInArea + block, in_b.data);
   if (ercode < 0) return ercode;
 
-  if (!in_b.ino->isvalid) return 0;
+  if (!in_b.ino[offset].isvalid) return 0;
 
   printf("\nPrinting contents of file(inode) %d\n", absinode);
 
-  size = in_b.ino->size;
+  size = in_b.ino[offset].size;
 
   if (!size) {
     printf("** NO DATA **\n");
@@ -130,7 +130,7 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
 
 	int i = 0;
 	while (size > 0) {
-		ercode = disk_ops.read(startDtArea + in_b.ino->direct[i++], buf);
+		ercode = disk_ops.read(startDtArea + in_b.ino[offset].direct[i++], buf);
 
 		if (ercode < 0) {
 			return ercode;

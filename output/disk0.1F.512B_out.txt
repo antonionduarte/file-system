@@ -23,13 +23,13 @@ Bmap for data blocks:
 i-nodes:
 0:
 	valid
-		512
-			0
-			NULL
-			NULL
-			NULL
-			NULL
-			NULL
+	512
+		0
+		NULL
+		NULL
+		NULL
+		NULL
+		NULL
 1:
 	invalid
 2:
@@ -64,3 +64,37 @@ i-nodes:
 	invalid
 17:
 	invalid
+
+Printing contents of file(inode) 0
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
+A A A A A A A A A A A A A A A A
