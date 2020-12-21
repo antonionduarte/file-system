@@ -38,6 +38,11 @@ int main(int argc, char *argv[]) {
   ercode = super_ops.read(&sb);
   if (ercode < 0) return ercode;
 
+	// check integrity of superblock
+	super_ops.integrity(&sb);
+
+	/* Bytemap Integrity Checking */
+
 	
 	
 

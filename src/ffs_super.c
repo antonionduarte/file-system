@@ -11,6 +11,8 @@ extern struct disk_operations disk_ops;
 #include "ffs_super.h"
 #endif
 
+#include "ffs_inode.h"
+
 /* #ifndef FFS_INODE_H
 #include "ffs_inode.h"
 #endif */
@@ -89,6 +91,30 @@ static void check_integrity(struct super *sb) {
 	}
 
 	// bmap locations
+	printf("I-Node bitmap location: ");
+	if (sb->nbmapblocksinodes == 1) {
+		printf(CORRECT);
+	}
+	else {
+		printf(INCORRECT);
+	}
+
+	printf("Data blocks bitmap location: ");
+	if (sb->nbmapblocksdata == 3 + sb->ninodeblocks) {
+		printf(CORRECT);
+	}
+	else {
+		printf(INCORRECT);
+	}
+
+	// number of inodes
+	printf("Number of I-Nodes: ");
+	if (sb->ninodes == (INODES_PER_BLOCK * sb->ninodeblocks)) {
+		printf(CORRECT);
+	}
+	else {
+		printf(INCORRECT);
+	}
 
 }
 
