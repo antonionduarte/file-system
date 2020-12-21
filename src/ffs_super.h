@@ -6,18 +6,21 @@
    +-----+-----+-----+-----+-----+-----+-----+-----+-----+
 */
 
-#define SB_OFFSET	0
-#define BMi_OFFSET	1
+#define SB_OFFSET 0
+#define BMi_OFFSET 1
 #define DISK_BLOCK_SIZE 512
-#define FS_MAGIC	0xf0f03410
+#define FS_MAGIC 0xf0f03410
+
+#define CORRECT "correct\n"
+#define INCORRECT "incorrect\n"
 
 struct super {
   unsigned int fsmagic;
   unsigned int nblocks;
-  unsigned int nbmapblocksinodes;	// Always 1 in BFS
+  unsigned int nbmapblocksinodes;  // Always 1 in BFS
   unsigned int ninodeblocks;
   unsigned int ninodes;
-  unsigned int nbmapblocksdata;		// Always 1 in BFS
+  unsigned int nbmapblocksdata;	 // Always 1 in BFS
   unsigned int ndatablocks;
   unsigned int startInArea;
   unsigned int startDtBmap;
@@ -29,7 +32,6 @@ union sb_block {
   struct super sb;
   unsigned char data[DISK_BLOCK_SIZE];
 };
-
 
 /* operations on superblock structures
 
@@ -45,11 +47,16 @@ union sb_block {
     parameters:
      @in: pointer to superblock structure
 
-*/
+	check: checks the integrity of the information in the superblock
+		parameters:
+		 @in: pointer to a superblock structure
+		 @in: pointer to an error flag
+		 @out
 
+*/
 
 struct super_operations {
   int (*read)(struct super *sb);
   void (*print)(const struct super *sb);
-  void (*debug)(const struct super *sb);
+  void (*integrity)(struct super *sb);
 };
