@@ -72,6 +72,10 @@ void bytemap_printTable(struct bytemap *bmap) {
   if (entry % 16) printf("\n");	 // last NL for general case
 }
 
+void bytemap_checkIntegrity(struct bytemap *bmap) {
+
+}
+
 struct bytemap_operations bmap_ops = {.read = bytemap_read,
 				      .getNextEntry = bytemap_getNextEntry,
 				      .setIndex = bytemap_setIndex,
