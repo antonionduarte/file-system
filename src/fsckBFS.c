@@ -23,7 +23,6 @@ extern struct inode_operations inode_ops;
 
 int main(int argc, char *argv[]) {
 	int ercode;
-	char error_flag;
 
 	struct super sb;
   struct bytemap bmapINODES, bmapDATA;
@@ -43,8 +42,13 @@ int main(int argc, char *argv[]) {
 
 	/* Bytemap Integrity Checking */
 
-	
-	
+	// inode bytemap integrity check
+	bmap_ops.checkIntegrity(&bmapINODES, sb.startInArea);
+
+	// data integrity checking
+	ercode = bmap_ops.read(&bmapDATA, sb.ndatablocks, sb.startDtBmap);
+	if (ercode < 0) return ercode;
+	inode_ops.checkData(sb.ninodes, sb.startInArea, &bmapDATA);
 
 }
 

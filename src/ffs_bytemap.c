@@ -16,6 +16,11 @@ extern struct super_operations super_ops;
 #include "ffs_bytemap.h"
 #endif
 
+#ifndef FFS_INODE_H
+#include "ffs_inode.h"
+extern struct inode_operations inode_ops;
+#endif
+
 /* bytemap operations */
 
 static int bytemap_read(struct bytemap *bmap, unsigned int max_entries,
@@ -72,11 +77,30 @@ void bytemap_printTable(struct bytemap *bmap) {
   if (entry % 16) printf("\n");	 // last NL for general case
 }
 
-void bytemap_checkIntegrity(struct bytemap *bmap) {
+void bytemap_checkIntegrity(struct bytemap *bmap, int startInArea) {
+	// variable that indicated the number of mismatches between the bytemap
+	unsigned int errors = 0;
 
+	printf("----------------------------------------\n");
+	printf("Integrity checking for inode bytemap ...\n");
+	printf("----------------------------------------\n");
+	
+		for (int i = 0; i < bmap->size; i++) {
+		struct inode in;
+
+		inode_ops.read(startInArea, i, &in);
+
+		if (((bmap->bmap[i] == 1) && (!in.isvalid)) || ((bmap->bmap[i] == 0) && (in.isvalid))) {
+			errors++;
+		}
+	}
+
+	printf("Number of inconsistencies found: %u\n\n", errors);
 }
 
 struct bytemap_operations bmap_ops = {.read = bytemap_read,
 				      .getNextEntry = bytemap_getNextEntry,
 				      .setIndex = bytemap_setIndex,
-				      .printTable = bytemap_printTable};
+				      .printTable = bytemap_printTable,
+							.checkIntegrity = bytemap_checkIntegrity
+};

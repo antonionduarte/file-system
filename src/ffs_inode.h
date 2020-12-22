@@ -10,6 +10,11 @@ extern struct disk_operations disk_ops;
 #include "ffs_super.h"
 #endif
 
+#ifndef FFS_BYTEMAP_H
+#include "ffs_bytemap.h"
+extern struct bytemap_operations bmap_ops;
+#endif
+
 // Note that inodes currently fit exactly in one block
 #define INODES_PER_BLOCK (DISK_BLOCK_SIZE / sizeof(struct inode))
 
@@ -46,5 +51,6 @@ struct inode_operations {
 		    unsigned int absDskBlk);
   int (*printFileData)(unsigned int startInArea, unsigned int absinode,
 		       unsigned int startDtArea);
+	void (*checkData)(int ninodes, int startInArea, struct bytemap *data);
 };
 

@@ -6,6 +6,11 @@
 #include "ffs_inode.h"
 #endif
 
+#ifndef FFS_BYTEMAP_H
+#include "ffs_bytemap.h"
+extern struct bytemap_operations bmap_ops;
+#endif
+
 static void inode_print(unsigned int number, struct inode *in) {
   printf("%d:\n", number);
   printf("	%s\n", (in->isvalid) ? "valid" : "invalid");
@@ -15,14 +20,14 @@ static void inode_print(unsigned int number, struct inode *in) {
 
     int size = in->size;
     int block_count = in->size / DISK_BLOCK_SIZE;
-    int occupied_pointers = size % DISK_BLOCK_SIZE ? block_count + 1 : block_count;
+    int occupied_pointers =
+	size % DISK_BLOCK_SIZE ? block_count + 1 : block_count;
 
     for (int i = 0; i < POINTERS_PER_INODE; i++) {
       if (i < occupied_pointers) {
-		printf("\t\t%d\n", in->direct[i]);
-      } 
-	  else {
-		printf("\t\t%s\n", "NULL");
+	printf("\t\t%d\n", in->direct[i]);
+      } else {
+	printf("\t\t%s\n", "NULL");
       }
     }
   }
@@ -128,27 +133,80 @@ static int inode_printFileData(unsigned int startInArea, unsigned int absinode,
     return 0;
   }
 
-	int i = 0;
-	while (size > 0) {
-		ercode = disk_ops.read(startDtArea + in_b.ino[offset].direct[i++], buf);
+  int i = 0;
+  while (size > 0) {
+    ercode = disk_ops.read(startDtArea + in_b.ino[offset].direct[i++], buf);
 
-		if (ercode < 0) {
-			return ercode;
-		}
+    if (ercode < 0) {
+      return ercode;
+    }
 
-		if (size >= DISK_BLOCK_SIZE) {
-			f_data_print(buf, DISK_BLOCK_SIZE);
-		}
-		else {
-			f_data_print(buf, size);
-		}
-		
-		size -= DISK_BLOCK_SIZE;
-	}
+    if (size >= DISK_BLOCK_SIZE) {
+      f_data_print(buf, DISK_BLOCK_SIZE);
+    } else {
+      f_data_print(buf, size);
+    }
 
-	return ercode;
+    size -= DISK_BLOCK_SIZE;
+  }
+
+  return ercode;
+}
+
+void inode_checkData(int ninodes, int startInArea, struct bytemap *data) {
+  struct bytemap bmap;
+  struct inode ino;
+  unsigned int nduplicates = 0;
+
+	printf("--------------------------------------------------------------------------------\n");
+  printf(
+      "Integrity checking for data, trying to find duplicate pointers within "
+      "inodes ...\n");
+	printf("--------------------------------------------------------------------------------\n");
+
+  for (int i = 0; i < DISK_BLOCK_SIZE; i++) {
+    bmap.bmap[i] = 0;
+  }
+
+  for (int i = 0; i < ninodes; i++) {
+    inode_read(startInArea, i, &ino);
+
+    int size = ino.size;
+    int block_count = ino.size / DISK_BLOCK_SIZE;
+    int occupied_pointers =
+	size % DISK_BLOCK_SIZE ? block_count + 1 : block_count;
+
+    for (int j = 0; j < occupied_pointers; j++) {
+      int k = ino.direct[j];
+
+      if (bmap.bmap[k] == 1) {
+	nduplicates++;
+      } else {
+	bmap.bmap[k] = 1;
+      }
+    }
+  }
+
+  printf("Number of inconsistencies found: %u\n\n", nduplicates);
+	
+	printf("---------------------------------------------------------------------------------------\n");
+  printf(
+      "Integrity check for data bmap, trying to find differences between the "
+      "generated one ...\n");
+	printf("---------------------------------------------------------------------------------------\n");
+
+	int ninconsistencies = 0;
+
+  for (int i = 0; i < data->size; i++) {
+    if (bmap.bmap[i] != data->bmap[i]) {
+      ninconsistencies++;
+    }
+  }
+
+  printf("Number of differences found: %u\n\n", ninconsistencies);
 }
 
 struct inode_operations inode_ops = {.read = inode_read,
 				     .printFileData = inode_printFileData,
-				     .printTable = inode_printTable};
+				     .printTable = inode_printTable,
+				     .checkData = inode_checkData};

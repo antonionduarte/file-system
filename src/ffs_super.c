@@ -38,7 +38,9 @@ static void check_integrity(struct super *sb) {
   int sb_sum_blocks_size = 2 + sb->nbmapblocksdata + sb->nbmapblocksinodes +
 			   sb->ndatablocks + sb->ninodeblocks;
 
+	printf("-----------------------------\n");
   printf("Superblock integrity check:\n");
+	printf("-----------------------------\n");
 
   // check magic number
   printf("Magic number: ");
@@ -100,7 +102,7 @@ static void check_integrity(struct super *sb) {
 	}
 
 	printf("Data blocks bitmap location: ");
-	if (sb->nbmapblocksdata == 3 + sb->ninodeblocks) {
+	if (sb->startDtBmap == (3 + sb->ninodeblocks)) {
 		printf(CORRECT);
 	}
 	else {
@@ -109,13 +111,14 @@ static void check_integrity(struct super *sb) {
 
 	// number of inodes
 	printf("Number of I-Nodes: ");
-	if (sb->ninodes == (INODES_PER_BLOCK * sb->ninodeblocks)) {
+	if (sb->ninodes <= (INODES_PER_BLOCK * sb->ninodeblocks)) {
 		printf(CORRECT);
 	}
 	else {
 		printf(INCORRECT);
 	}
 
+	printf("\n");
 }
 
 /* Helper functions */

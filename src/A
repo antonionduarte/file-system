@@ -1,7 +1,7 @@
 CFLAGS = -Wall
 
-#dumpBFS: dumpBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o
-#	gcc -o dumpBFS dumpBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o -lm
+dumpBFS: dumpBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o
+	gcc -o dumpBFS dumpBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o -lm
 
 fsckBFS: fsckBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o 
 	gcc -o fsckBFS fsckBFS.o disk_driver.o ffs_super.o ffs_bytemap.o ffs_inode.o -lm

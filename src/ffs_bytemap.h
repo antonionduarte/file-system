@@ -48,12 +48,12 @@ struct bytemap {
 */
 
 
-
 struct bytemap_operations {
   int (*read)(struct bytemap *bmap, unsigned int size,\
 		unsigned int blockNbr);
   int (*getNextEntry)(struct bytemap *bmap);
   int (*setIndex)(struct bytemap *bmap, unsigned int index);
   void (*printTable)(struct bytemap *bmap);
+	void (*checkIntegrity)(struct bytemap *bmap, int startInArea);
 };
 
