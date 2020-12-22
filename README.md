@@ -1,6 +1,6 @@
 # file-system
 
-A file system simulation made in C.
+A basic file system simulation made in C.
 In the `src` directory is the source code of the project.
 In the `data` directory are examples of "disks" to run the code on.
 There are two python scripts to easily run the code on all the disks provided. 
