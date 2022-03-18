@@ -1,4 +1,4 @@
-# file-system
+# File System Sim
 
 A basic file system simulation made in C.
 In the `src` directory is the source code of the project.
